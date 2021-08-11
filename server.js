@@ -18,6 +18,7 @@ app.listen(3000, function() {
 
 //MongoDB connection...
 
+
 //MongoDB Client...
 MongoClient.connect(connectionString,{ useUnifiedTopology: true },(err, client) => {
     // ... do something here
@@ -29,22 +30,35 @@ MongoClient.connect(connectionString,{ useUnifiedTopology: true },(err, client) 
     const collection = db.collection('listingsAndReviews')
 
     //Get
-    app.get('/', (req,res)=>{
-        db.collection('listingsAndReviews').find({_id:"10047964"}).toArray()
-            .then(results => {
-                    //console.log(results)
-                    //Render our view.
-                    res.render('index.ejs', {listing: results})
-                })
-            .catch(error => console.error(error))
+    app.get("/", (req, res) => {
+      db.collection("listingsAndReviews")
+        .find({ _id: "10047964" })
+        .toArray()
+        .then(results => {
+          //console.log(results)
+          //Render our view.
+          res.render("index.ejs", { listing: results });
         })
+        .catch(error => console.error(error));
+    });
 
+    //Edit
+    app.get('/edit',(req,res)=>{
+            res.render("edit.ejs",{listing:1});
+    })
 
+    //Save new item
+    app.post("/room", (req, res) => {
+      //Insert an item to the collection of data.
+      collection
+        .insertOne(req.body)
+        .then(result => res.redirect('/'))
+        .catch(error => console.log(error));
 
-
-
-
-  })
+      console.log(req.body);
+    });
+  
+})
 
 
 //Handlers  

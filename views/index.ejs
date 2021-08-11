@@ -4,15 +4,46 @@
     <title>
         Read our data.
     </title>
+    <!--TEMPORARY ACCESS USING CDN of TAILWIND-->
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body>
     <h3>Listing Information</h3>
-    <table>
-        <tr>
-            <td></td>
+    <table class="table w-full">
+        <thead>
+            <th>Name</th>
+            <th>Property Type</th>
+            <th>Nights Min</th>
+            <th>Nights Max</th>
+            <th>ACTION</th>
+        </thead>
+            <% for (var i = 0; i < listing.length; i++) { %>
+        <div class="table-row-group">
+        <tr class="table-row">
+            <td class="table-cell"><%= listing[i].name %></td>
+            <td class="table-cell"><%= listing[i].property_type %></td>
+            <td class="table-cell"><%= listing[i].minimum_nights  %></td>
+            <td class="table-cell"><%= listing[i].maximum_nights  %></td>
+            <td class="table-cell"><a href="edit">EDIT</a></td>
         </tr>
-
+        <% } %>
+        </div>
     </table>
+    <div>
+            <form action="/room" method="POST">
+                <label for="name">Name: </label>
+                <input type="text" placeholder="name" name="name" /><br/>
+                <label for="listing_url">Listing URL: </label>
+                <input type="text" placeholder="http://www.google.com" name="listing_url" /> 
+                <label for="listing_url">Nights (Min): </label>
+                <input type="number" placeholder="1" name="min_nights" /> 
+                <label for="listing_url">Nights (Max): </label>
+                <input type="number" placeholder="25" name="max_nights" /> <br/>
+                <button type="submit" >
+                    Submit
+                </button>
+              </form>
+    </div>
    
    
 </body>
