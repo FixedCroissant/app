@@ -11,9 +11,20 @@
     <h3>Edit Listing Information</h3>
     
     <div>
-            Edit Information here.
+        Edit Information here.
+
+        <form action="/update/<%=data.item%>" method="POST">
+            <% for (var i = 0; i < data.listing.length; i++) { %>
+            Name: <input type="text" name="name" value="<%=data.listing[i].name%>"></input>
+            <br />
+            <br />
+            Property Type: <input type="text" name="property_type"><%=data.listing[i].property_type%></a>
+
+            <% } %>
+            <br />
+            <input type="submit" value="Save Data">
+            <br />
+        </form>
     </div>
-   
-   
 </body>
 </html>

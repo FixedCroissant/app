@@ -24,7 +24,7 @@
             <td class="table-cell"><%= listing[i].property_type %></td>
             <td class="table-cell"><%= listing[i].minimum_nights  %></td>
             <td class="table-cell"><%= listing[i].maximum_nights  %></td>
-            <td class="table-cell"><a href="edit">EDIT</a></td>
+            <td class="table-cell"><a href="edit/<%=listing[i]._id%>">EDIT</a></td>
         </tr>
         <% } %>
         </div>
