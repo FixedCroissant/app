@@ -32,7 +32,8 @@ MongoClient.connect(connectionString,{ useUnifiedTopology: true },(err, client) 
     //Get
     app.get("/", (req, res) => {
       db.collection("listingsAndReviews")
-        .find({ _id: "10047964" })
+        //.find({ _id: "10047964" })
+        .aggregate([{ $match: { minimum_nights: "2" } }])
         .toArray()
         .then(results => {
           //console.log(results)
@@ -43,9 +44,31 @@ MongoClient.connect(connectionString,{ useUnifiedTopology: true },(err, client) 
     });
 
     //Edit
-    app.get('/edit',(req,res)=>{
-            res.render("edit.ejs",{listing:1});
-    })
+    app.get("/edit/:reservationID", (req, res) => {
+      //Params are found within: req.params
+      //console.log(req.params);
+
+      collection
+        .find({ _id: req.params.reservationID })
+        .toArray()
+        .then((results) => {
+          res.render("edit.ejs", { data:{listing: results,item:req.params.reservationID} });
+        });
+    });
+
+    //Update Record.
+    app.post('/update/:id',(req,res)=>{
+      //see my params.
+      //console.log(req.params);
+      
+      //lets see what's being sent over.
+      //console.log(req.body);
+      
+      collection.findOneAndUpdate({ _id: req.params.id },{$set:{name: req.body.name}})
+        .then(result=>{res.redirect('/')
+        }).catch(error=>console.error(error))
+    });
+  });
 
     //Save new item
     app.post("/room", (req, res) => {
@@ -58,7 +81,7 @@ MongoClient.connect(connectionString,{ useUnifiedTopology: true },(err, client) 
       console.log(req.body);
     });
   
-})
+
 
 
 //Handlers  
